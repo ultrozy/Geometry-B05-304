@@ -1,20 +1,29 @@
-#include <point.h>
+#ifndef VECTOR_H_
+#define VECTOR_H_
+
+#include "point.h"
 
 template <class T>
 struct Vector {
   T x = 0;
   T y = 0;
 
-  Vector(Point<T>);
+  explicit Vector(const Point<T>&);
+  Vector(const Point<T>&, const Point<T>&);
 
   Vector<T> operator+() const;
   Vector<T> operator-() const;
+  T Norm() const;
 
   Vector<T>& operator+=(const Vector<T>&);
 };
 
 template <class T>
-Vector<T>::Vector(Point<T> p) : x{p.x}, y{p.y} {
+Vector<T>::Vector(const Point<T>& p) : x{p.x}, y{p.y} {
+}
+
+template <class T>
+Vector<T>::Vector(const Point<T>& a, const Point<T>& b) : x{b.x - a.x}, y{b.y - a.y} {
 }
 
 template <class T>
@@ -53,3 +62,10 @@ template <class T>
 T OuterProduct(const Vector<T>& a, const Vector<T>& b) {
   return a.x * b.y - a.y * b.x;
 }
+
+template <class T>
+T Vector<T>::Norm() const {
+  return x * x + y * y;
+}
+
+#endif
